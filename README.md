@@ -1,7 +1,7 @@
 # Olist Delivery Performance Analysis
 
 ## Project Overview
-This project is an end-to-end data analytics case study designed to reflect a real-world business scenario.. The objective is to analyse delivery performance within Olist’s marketplace and identify operational inefficiencies that impact customer satisfaction and revenue.
+This project is an end-to-end data analytics case study designed to reflect a real-world business scenario. The objective is to analyse delivery performance within Olist’s marketplace and identify operational inefficiencies that impact customer satisfaction and revenue.
 
 The project follows a structured workflow starting from raw data ingestion to business decision-making. It combines data engineering practices with analytical reasoning to deliver actionable insights.
 
@@ -67,11 +67,31 @@ This project is structured into multiple phases to reflect a real-world analytic
 ## Data Architecture (Planned)
 This project follows a layered data architecture:
 <p align="center">
-  <img src="Architecture.png" alt="Data Architecture" width="500"/>
+  <img src="04_Documentation/Architecture.png" alt="Data Architecture" width="500"/>
 </p>
 
 
 *A visual architecture diagram will be updated in later stages.*
+
+---
+
+## Data Model
+
+<p align="center">
+  <img src="04_Documentation/olist_data_model.png" alt="Data Model" width="600"/>
+</p>
+
+The dataset follows an order-centric relational structure where the `orders` table acts as the central entity.
+
+* One order can have multiple items (`order_items`)
+* One order can have multiple payments (`order_payments`)
+* One order can have one or more reviews (`order_reviews`)
+* Each order is linked to a customer (`customers`)
+* Each item is associated with a product and fulfilled by a seller
+
+This structure requires careful handling of one-to-many relationships to avoid row duplication during analysis. Aggregation is applied before joining transactional tables to maintain a consistent grain at the order level.
+
+This modelling approach ensures accurate aggregation and prevents revenue inflation caused by row-level duplication.
 
 ---
 
@@ -167,17 +187,14 @@ Each branch contains its own README with detailed explanations, SQL scripts, and
 
 ### Completed
 - Part I – Strategic Foundation  
-  - Business problem defined  
-  - Stakeholders identified  
-  - Hypotheses established  
+- Part II – Data Infrastructure Setup  
 
 ### In Progress
-- Part II – Data Infrastructure Setup  
-  - Data ingestion into SQL Server  
-  - Schema validation and data quality checks  
+- Part III – Data Preparation & Feature Engineering  
+  - Build order-level analytical dataset (Fact_Orders_Master)  
+  - Engineer delivery, distance, and performance features 
 
 ### Upcoming
-- Part III – Data Preparation & Feature Engineering  
 - Part IV – Hypothesis Testing  
 - Part V – Data Modeling for Power BI  
 - Part VI – Dashboard Development  
