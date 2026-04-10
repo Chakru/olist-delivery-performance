@@ -2,7 +2,7 @@
 ============================================================
 Project: Olist E-Commerce Data Warehouse
 Layer: Data Infrastructure (Staging → Core → Analytics)
-File: 03_sql_data_infrastructure.sql
+File: 01_data_ingestion_and_validation
 
 Description:
 This script performs:

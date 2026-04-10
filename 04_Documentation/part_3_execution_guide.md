@@ -4,7 +4,7 @@
 
 This phase transforms the validated relational data into a structured analytical dataset.
 
-The goal is to build a clean, order-level fact table (`Fact_Orders_Master`) that supports accurate analysis, KPI calculation, and downstream reporting.
+The goal is to build a clean, order-level fact table (`analytics.fact_orders_final`) that supports accurate analysis, KPI calculation, and downstream reporting.
 
 ---
 
@@ -64,7 +64,7 @@ This prevents duplication when joining transactional data.
 
 Builds the final analytical table:
 ```
-fact_orders_master
+analytics.fact_orders_final
 ```
 
 This table includes:
@@ -74,6 +74,9 @@ This table includes:
 - Aggregated financial metrics  
 - Review scores  
 - Delivery timestamps  
+- Delivery performance metrics (delay, categories)  
+- Distance metrics and segmentation  
+- Customer behaviour metrics (repeat indicators)   
 
 ---
 
@@ -84,12 +87,12 @@ Creates analytical features required for business insights.
 #### Delivery Features
 - `actual_delivery_days`
 - `estimated_delivery_days`
-- `delivery_delay_days`
-- `delay_flag` (1 = Late, 0 = On-time/Early)
-- `delay_category` (Early / On-time / Late)
+- `delay_days`
+- `is_delayed` (1 = Late, 0 = On-time/Early)
+- `delivery_status_category` (Early / On-time / Late)
 
 #### Revenue & Operational Features
-- `order_revenue`
+- `total_order_value`
 - `seller_count`
 
 ---
@@ -98,16 +101,37 @@ Creates analytical features required for business insights.
 
 Uses geolocation data to:
 
-- Map customer and seller locations  
-- Calculate approximate distance between them  
-- Create distance buckets:
+- Map customer and seller locations (latitude & longitude)
+- Compute approximate distance using Euclidean formula (relative measure, not actual KM)
 
-  - 0–100 km  
-  - 100–300 km  
-  - 300–700 km  
-  - 700+ km  
+Distance is used as a comparative metric rather than an exact physical measurement.
 
-This enables analysis of logistics impact on delivery performance.
+Two types of distance segmentation are created:
+
+1. Business-defined buckets:
+   - Very Short
+   - Short
+   - Medium
+   - Long
+
+2. Quantile-based buckets:
+   - Q1 (closest 25%)
+   - Q2
+   - Q3
+   - Q4 (farthest 25%)
+
+Quantile segmentation ensures balanced distribution for statistical analysis.
+
+---
+
+### 6. Customer Behaviour Metrics
+
+Adds customer-level insights:
+
+- total_orders (number of orders per customer)
+- is_repeat_customer (1 = repeat, 0 = one-time)
+
+This enables analysis of customer retention and repeat purchase behaviour.
 
 ---
 
@@ -117,6 +141,7 @@ This enables analysis of logistics impact on delivery performance.
 - Prevents revenue duplication via aggregation  
 - Handles null and inconsistent timestamp values  
 - Validates extreme or negative delivery durations  
+- Restricts delay calculations to valid delivered orders only
 
 ---
 
@@ -124,7 +149,7 @@ This enables analysis of logistics impact on delivery performance.
 
 After execution, the following dataset is available:
 
-- `analytics.Fact_Orders_Master`
+- `analytics.fact_orders_final`
 
 This dataset serves as the **single source of truth** for:
 
