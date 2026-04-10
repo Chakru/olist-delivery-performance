@@ -188,17 +188,19 @@ Each branch contains its own README with detailed explanations, SQL scripts, and
 ### Completed
 - Part I – Strategic Foundation  
 - Part II – Data Infrastructure Setup  
+- Part III – Data Preparation & Feature Engineering  
+  - Built order-level analytical dataset (Fact_Orders_Master)  
+  - Engineered delivery, distance, and performance features  
+  - Ensured correct data grain and prevented row duplication  
 
 ### In Progress
-- Part III – Data Preparation & Feature Engineering  
-  - Build order-level analytical dataset (Fact_Orders_Master)  
-  - Engineer delivery, distance, and performance features 
+- Part IV – Hypothesis Testing  
+  - Validate delay impact, seller concentration, and distance effects  
 
 ### Upcoming
-- Part IV – Hypothesis Testing  
 - Part V – Data Modeling for Power BI  
 - Part VI – Dashboard Development  
-- Part VII – Case Study Writing  
+- Part VII – Case Study Writing    
 
 ---
 
@@ -226,10 +228,9 @@ This project is being developed iteratively to reflect real-world analytics work
 ---
 
 ## Next Steps
-- Complete data ingestion and schema validation  
-- Build analytical base tables  
-- Engineer delivery and distance features  
-- Begin hypothesis-driven analysis  
+- Perform hypothesis-driven analysis (Part IV)  
+- Evaluate delay impact across sellers, distance, and customer satisfaction  
+- Quantify revenue exposure and operational inefficiencies  
 
 ---
 
